@@ -1,0 +1,181 @@
+.horizontalContainer {
+    display: flex;
+    font-family: "Josefin Sans";
+    padding: auto;
+    justify-content: space-between;
+    border-top: 2px solid rgb(225, 222, 222);
+    border-bottom: 2px solid rgb(225, 222, 222);;
+    margin-top: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.infoHorizontalContainer {
+    display: flex;
+    font-family: "Josefin Sans";
+    padding: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.verticalContainer { 
+    display: flex;
+    flex-direction: column;
+    padding-left: 30%;
+    padding-right: 30%;
+    font-family: "Josefin Sans";
+}
+.innerHorizontalContainer {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 2%;
+    text-align: center;
+    font-family: "Josefin Sans";
+}
+.innerHorizontalContainer button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 4%;
+    font-family: "Josefin Sans";
+}
+input{
+    padding: 2%;
+    border: 2px solid lightgrey;
+}
+select{
+    font-family: "Josefin Sans";
+    padding: 2%;
+    border: 2px solid lightgrey;
+}
+
+.threeStepProcess{
+    display: flex;
+    padding: 2%;
+    font-family: "Josefin Sans";
+    justify-content: space-between;
+    padding: auto;
+}
+.threeStepProcess::before {
+    content: '';
+    position: absolute;
+    width: 35%;
+    margin-left: 2%;
+    margin-top: 1.7%;
+    height: 2px; 
+    background-color: darkgreen;
+    z-index: -1;
+}
+
+.threeStepProcess i {
+position: relative;
+background-color: white;
+color: darkgreen;
+}
+.stepStack{
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.notice{
+    padding: 1%;
+    color: green;
+}
+
+.orderStyle{
+    width: 12%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    padding-right: 4%;
+}
+.orderStyle img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+.orderStyle p {
+    margin: 0;
+}
+
+.authButton{
+    background: white;
+    border: 2px solid green;
+    color: darkgreen;
+    font-weight: bold;
+}
+.advertisement{
+    padding: 2%;
+    text-align:center;
+    background-color: darkgreen;
+    font-family: "Josefin Sans";
+    color: white;
+    border: none;
+}
+.textContainer{
+    display: flex;
+    margin-top: 2%;
+    justify-content: space-between;
+
+}
+.textContainer div{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+
+}
+.textContainer div input{
+    flex-grow: 1;
+    margin: 0;  
+
+}
+.textContainer div p{
+    margin: 0%;
+}
+.inputContainer{
+    margin:0;
+    flex-grow: 1;
+}
+.dropDown{
+    margin-right: 1%;
+}
+.alignRight{
+    display: flex;
+    align-items: flex-end;
+}
+/*Footer*/
+.footer{
+    margin-top: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end; /* Align to the end of the flex container */
+    font-family: "Josefin Sans";
+    padding-left: 73%;
+    margin-right: 5%;
+}
+.footerButton{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+.footerButton button{
+    flex-grow: 1;
+    padding: 5%;
+    background-color: darkgreen;
+    font-family: "Josefin Sans";
+    color: white;
+    border: none;
+}
+.footerButton p{
+    text-align:center;
+    font-family: "Josefin Sans";
+    font-size: 12px;
+    padding: 0;
+    margin-top: 5%;
+    color: grey;
+    border: none;
+}

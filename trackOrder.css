@@ -1,0 +1,20 @@
+.borderBottom{
+    flex-grow: 1;
+    border-bottom: 2px solid lightgrey;
+    padding-top: 2%;
+}
+
+.orderStyle{
+    display: flex;
+    margin-bottom: 2%;
+    flex-direction: row;
+    align-items: center;
+    padding: 2%;
+    padding-right: 4%;
+}
+.orderStyle img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="done.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav>
+        <ul>
+            <li><a href="home.html"><i class="material-icons">home</i></a></li>    
+            <li><a href="trackOrder.html">Track Order</a>
+            <li ><a href="add-question.html">Help</a></li>
+            <li><a href="signup.html"><i class="material-icons">person</i></a></li>    
+            <li><a href="">
+              <i class="material-icons">shopping_basket</i>
+              <span class="badge" id="cart-badge"></span>
+            </a></li>
+        </ul>
+    </nav>
+    <div class="verticalContainer">
+        <div>
+          <div class= "threeStepProcess">
+            <div class="stepStack">
+              <i class="material-icons">check_circle</i>
+              <p>REVIEW</p>
+            </div>
+            <div class="stepStack">
+              <i class="material-icons">check_circle</i>
+              <p>DELIVERY</p>
+            </div>
+            <div class="stepStack">
+            <i class="material-icons">radio_button_checked</i>
+              <p>DONE</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="infoHorizontalContainer">
+        <div class="orderStyle">
+          <img id="image"/>
+        </div>
+        <div style="flex-grow: 1;">
+            <h2 id="title"></h2>
+              <div class="borderTop">
+                <h3>Delivery Date</h3>
+                <h4 id="date"></h3>
+              </div>
+            <div class="borderTop">
+              <h3>Item Pricing</h3>
+              <h4 id = "price">$74.00</h3>
+            </div>
+            <div class="borderTop">
+              <h3>Delivery Address</h2>
+              <h4 id="name"></h4>
+              <h4 id="street"></h4>
+              <h4 id="city"></h4>
+            </div>
+            <div style="background-color: lightgrey; padding: 3%;">
+              <div id="notification" style="display: flex; justify-content: center;" class="notification">
+                <p>You are saving $10.00</p>
+              </div>
+              <div class="reciept">
+                <p>SUBTOTAL</p>
+                <p id="priceR"></p>
+              </div>
+              <div class="reciept">
+                <p>Delivery</p>
+                <p>$25.00</p>
+              </div>
+              <div class="reciept" id="discount">
+                <p style="color:green">Delivery Discount</p>
+                <p style="color:green">-$10.00</p>
+              </div>
+              <div class="reciept">
+                <p>Tax</p>
+                <p>$0.00</p>
+              </div>
+              <div class="reciept" style="border-top: 2px solid grey;">
+                <p>ORDER TOTAL</p>
+                <p id="total"></p>
+              </div>
+            </div>
+            <p>By Clicking "Place Order" you agree to the Terms of USe and Privacy Policy</p>
+
+        </div>
+      </div>
+    <div class="footer">
+      <div class="footerButton">
+        <button onclick="submitOrder()">PLACE ORDER</button>
+      </div>
+    </div>
+    <script src="configuration.js"></script>
+    <script>
+        let host = getHost();
+        let form = getForm();
+        console.log(form);
+        let order = form.order;
+        let address = form.address;
+        let recipient = form.recipient;
+        let flower = form.order.flower;
+        let total = caluclateTotal();
+        displayInfo();
+
+        function displayInfo(){
+          let titleText = document.getElementById("title");
+          let dateText = document.getElementById("date");
+          let priceText = document.getElementById("price");
+          let nameText = document.getElementById("name");
+          let streetText = document.getElementById("street");
+          let cityText = document.getElementById("city");
+          let priceR = document.getElementById("priceR");
+          let totalText = document.getElementById("total");
+          let image = document.getElementById("image");
+          image.src = `${host}/flowers/${flower.id}/image`;
+          titleText.innerHTML = flower.name;
+          dateText.innerHTML = order.deliverDate;
+          priceText.innerHTML = `$${flower.price}`;
+          nameText.innerHTML = `${recipient.fName} ${recipient.lName}`;
+          streetText.innerHTML = `${address.street} + ${address.apt}`;
+          cityText.innerHTML = `${address.city} ${address.state} ${address.zipcode}`
+          priceR.innerHTML = `$${order.subtotal}`;
+          totalText.innerHTML = `$${total}`;
+        }
+        function caluclateTotal(){
+          let notificationText = document.getElementById("notification");
+          let discountText = document.getElementById("discount");
+          let subtotal = (JSON.parse(order.subtotal) + 25);
+          
+          if(isLoggedIn() == true){
+            notificationText.style = "display: flex; justify-content: center;";
+            discountText.style = "display:flex";
+            subtotal -= 10;
+          }else{
+            notificationText.style = "display: flex; justify-content: center;";
+            discountText.style = "display:none";
+          } 
+          return subtotal.toFixed(2);
+        }
+        async function submitOrder(){
+          let id = await addOrder();
+          console.log(id);
+          removeTheBasket();
+          location.href = "home.html";
+        }
+        async function addOrder(){
+          let postOrder= {
+            addressId: await addAddress(),
+            customerId: getStoredId(),
+            flowerId: flower.id,
+            orderDetailsId: await addOrderDetails(),
+            recipientId: await addRecipient()
+          }
+          let id = await postRequest("/orders", postOrder);
+          return id;
+        }
+        async function addOrderDetails(){
+          let postOrderDetails = {
+            deliveryDate: order.deliverDate,
+            status: "preparing",
+            total:total,
+            isSubscription: order.subscription,
+            price: JSON.parse(order.subtotal)
+          }
+          let id = await postRequest("/orderDetails", postOrderDetails);
+          return id;
+        }
+        async function addAddress(){
+          let postAddress = {
+            state: address.state,
+            city: address.city,
+            street: address.street,
+            zipCode: address.zipcode,
+            aptNumber: address.apt,
+          }
+          let id = await postRequest("/address", postAddress);
+          return id;
+        }
+        async function addRecipient(){
+          let postRecipient = {
+            firstName: recipient.fName,
+            lastName: recipient.lName,
+            relationship: recipient.relationship
+          }
+          let id = await postRequest("/recipient", postRecipient);
+          return id;
+        }
+        async function postRequest(endpoint, data){
+          let request = {
+            method: "POST",
+             headers: {
+                "Content-Type": "application/json",
+              },
+            body: JSON.stringify(data),
+          };
+          let response = await fetch(getHost() + endpoint, request);
+          if (response.status == 200) {
+            console.log("Post successful");
+            return response.json();
+          } else {
+            console.log(`response status:${response.status}`);
+            alert("Something went wrong!");
+          }
+        }
+    </script>
+  </body>
+</html>

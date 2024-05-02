@@ -1,0 +1,49 @@
+.horizontalContainer {
+    display: flex;
+    padding: 2%;
+    font-family: "Josefin Sans";
+    padding: auto;
+}
+.horizontalContainer div{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+}
+.horizontalContainer img{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: lightpink;
+    margin-right: 8%;
+}
+/* TODO Customize this*/
+.radio-custom {
+  display: inline-block;
+  vertical-align: top; 
+}
+.purchase{
+    display: inline;
+    justify-content: center;
+    border: 2px solid green;
+}
+.title{
+    align-self: center;
+}
+.addButton{
+    margin-top: 7%;
+    padding: 3%;
+    text-align:center;
+    background-color: darkgreen;
+    font-family: "Josefin Sans";
+    color: white;
+    border: none;
+}
+.date{
+    border: 2px solid lightgray;
+    font-family: "Josefin Sans";
+    padding: 2%;
+}
+.dateError{
+    border: 2px solid red;
+}

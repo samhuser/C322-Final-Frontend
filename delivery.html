@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="delivery.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav>
+        <ul>
+            <li><a href="home.html"><i class="material-icons">home</i></a></li>    
+            <li><a href="trackOrder.html">Track Order</a>
+            <li ><a href="add-question.html">Help</a></li>
+            <li><a href="signup.html"><i class="material-icons">person</i></a></li>    
+            <li><a href="">
+              <i class="material-icons">shopping_basket</i>
+              <span class="badge" id="cart-badge"></span>
+            </a></li>
+        </ul>
+    </nav>
+    <div>
+      <div class="verticalContainer">
+          <div>
+            <div class="threeStepProcess">
+              <div class="stepStack">
+                <i class="material-icons">check_circle</i>
+                <p>REVIEW</p>
+              </div>
+              <div class="stepStack">
+                <i class="material-icons">radio_button_checked</i>
+                <p>DELIVERY</p>
+              </div>
+              <div class="stepStack">
+                <i class="material-icons">radio_button_unchecked</i>
+                <p>DONE</p>
+              </div>
+            </div>
+            <div id="recruit">
+              <div class="advertisement">
+                <p>Save $10 on every delivery with an account</p>
+              </div>
+              <div class = "innerHorizontalContainer">
+                <button class="authButton" style="margin-right: 1%" onclick="validateForm('login')">LOG IN</button>
+                <button class="authButton" style="margin-left: 1%" onclick="validateForm('login')">SIGN UP</button>
+              </div>'
+            </div>
+          </div>
+          </div>
+        </div>
+      <div class="horizontalContainer">
+        <h3 id="title"></h3>
+        <h3 id="subtotal"></h3>
+      </div>
+      <div class="infoHorizontalContainer">
+        <div class="orderStyle">
+          <img id="image" src="https://www.folimg.com/kernel/imageload/?table=fol3_catalog_images&key1=NFG_feature_better&key2=404_feature"/>
+          <p >Delivery Date</p>
+          <p style="color: green" id="date"></p>
+        </div>
+        <div class="inputContainer">
+          <h2 style="margin-top: 2%;">RECIPIENT</h2>
+          <div class="textContainer">
+            <div style="margin-right: 2%">
+              <p>First Name*</p>
+              <input type="text" placeholder="First Name" id="fName"required>
+            </div>
+            <div style="margin-left: 2%">
+              <p>Last Name*</p>
+            <input type="text" placeholder="Last Name" id="lName" required>
+            </div>
+          </div>
+          <div class="textContainer">
+            <div>
+              <p>RelationShip*</p>
+              <select name="RelationShip" id="relationship" required>
+                <option selected disabled>Select</option>
+                <option>Spouse</option>
+                <option>Parent</option>
+                <option>Child</option>
+                <option>Friend</option>
+                <option>Girlfriend</option>
+                <option>Boyfriend</option>
+                <option>Sibling</option>
+              </select>
+            </div>
+          </div>
+          <h2>DELIVER TO</h2>
+          <div class="textContainer">
+            <div>
+              <p>Address*</p>
+              <input type="text" placeholder="Address" id="address" required>
+              <div class="alignRight">
+                <p class="notice">We cannot ship to PO Boxes</p>
+              </div>
+            </div>
+          </div>
+          <div class="textContainer">
+            <div style="margin-right: 2%">
+              <p>Apt/Suite</p>
+              <input type="text" placeholder="Apt/Suite Number" id="apt">
+            </div>
+            <div style="margin-left: 2%">
+              <p>City*</p>
+              <input type="text"  placeholder="City" id="city" required>
+            </div>
+          </div>
+          <div class="textContainer">
+            <div style="width: 20%;">
+              <p>State*</p>
+              <select name="State" id="state" class="dropDown" required>
+                <option selected disabled>Select</option>
+              </select>
+            </div>
+            <div style="margin-left: 4%">
+              <p>Zip Code*</p>
+              <input type="text" placeholder="Zip Code" id="zipCode" required/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="footerButton">
+        <button onclick="validateForm('continue')">Continue</button>
+        <p>Taxes and delivery calculated later</p>
+      </div>
+    </div>
+    <script src="configuration.js"></script>
+    <script>
+      const stateNames = [
+        "Alabama", "Alaska", "Arizona", "Arkansas", "California",
+        "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+        "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+        "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+        "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
+        "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+        "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+        "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+        "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+        "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+    ];
+      const select = document.getElementById("state");
+      stateNames.forEach(state => {
+        const option = document.createElement("option");
+        let stateValue = state.toUpperCase().replace(" ","_");
+        option.value = stateValue;
+        option.textContent = state; 
+        select.appendChild(option);
+      });
+      let host = getHost();
+      let order;
+      getOrder();
+      displayOrder();
+      checkAuthentication();
+      async function getOrder(){
+        order = getTheBasket();
+      }
+      function displayOrder(){
+        let title = document.getElementById("title");
+        title.innerText= order.flower.name;
+        let price = document.getElementById("subtotal");
+        price.innerHTML = `$${order.subtotal}`
+        let date = document.getElementById("date");
+        date.innerHTML = displayWordDate(order.deliverDate);
+        let image = document.getElementById("image");
+        image.src = `${host}/flowers/${flower.id}/image`;
+      }
+      function displayWordDate(numberDate){
+        let splitDate = numberDate.split('-');
+        let year = splitDate[0];
+        let month = parseInt(splitDate[1]);
+        let day = splitDate[2];
+        switch (month) {
+          case 1:
+            month = "Jan";
+            break;
+          case 2:
+          month = "Feb";
+          break;
+          case 3:
+          month = "Mar";
+          break;
+          case 4:
+          month = "Apr";
+          break;
+          case 5:
+          month = "May";
+          break;
+          case 6:
+          month = "Jun";
+          break;
+          case 7:
+          month = "Jul";
+          break;
+          case 8:
+          month = "Aug";
+          break;
+          case 9:
+          month = "Sep";
+          break;
+          case 10:
+          month = "Oct";
+          break;
+          case 11:
+          month = "Nov";
+          break;
+          case 12:
+          month = "Dec";
+          break;
+          default:
+          month = "Invalid month number";
+          break;
+        }
+        return `${month} ${day}, ${year}`;
+      }
+      function checkAuthentication(){
+        let recruit = document.getElementById("recruit");
+        recruit.style.visibility = isLoggedIn() ? "hidden" : "visible";
+      }
+      function validateForm(buttonPressed) {
+        //Recipient
+        var fName = document.getElementById("fName").value;
+        var lName = document.getElementById("lName").value;
+        var relationship = document.getElementById("relationship").value.toUpperCase();
+        //Address
+        var street = document.getElementById("address").value;
+        var apt = document.getElementById("apt").value;
+        var city = document.getElementById("city").value;
+        var state = document.getElementById("state").value.toUpperCase();
+        var zipCode = document.getElementById("zipCode").value;
+
+        if (fName == "" || lName == "" || relationship == "SELECT" || street == "" || city == "" || state == "SELECT" || zipCode == "") {
+          if(buttonPressed === "continue"){
+            alert("Please fill out all fields");
+            return false;
+          }else{
+
+          }
+        }
+        let recipient = {
+          fName: fName,
+          lName: lName,
+          relationship: relationship
+        }
+        let address = {
+          street: street,
+          apt: apt,
+          city: city,
+          state: state,
+          zipcode: zipCode
+        }
+        let orderDetails = {
+          order: order,
+          address: address,
+          recipient: recipient,
+        }
+        storeForm(JSON.stringify(orderDetails));
+        if(buttonPressed === "continue"){
+          location.href = "done.html";
+        }else{
+          location.href = "signup.html";
+        }
+      }
+      window.onload = function(){
+        if(getForm() != null){
+          let filled = getForm();
+          console.log(filled);
+          document.getElementById("fName").value= filled.recipient.fName;
+          document.getElementById("lName").value= filled.recipient.lName;
+          document.getElementById("relationship").value = filled.relationship;
+          document.getElementById("address").value = filled.address.street;
+          document.getElementById("apt").value = filled.address.apt;
+          document.getElementById("city").value = filled.address.city;
+          document.getElementById("state").value = filled.address.state;
+          document.getElementById("zipCode").value = filled.address.zipcode;
+        }
+        event.preventDefault();
+      }
+    </script>
+  </body>
+</html>

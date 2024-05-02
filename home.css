@@ -1,0 +1,64 @@
+
+.horizontalContainer {
+    display: flex; /* Use flexbox for horizontal alignment */
+    padding: 2%;
+    font-family: "Josefin Sans";
+}
+
+.horizontalContainer div{
+  background-color: lightpink;
+  padding: auto;
+  flex-grow: 1;
+  padding: 20px;
+  margin-right: 10px; /* Add margin to separate the wrapper and the image */
+}
+
+.filterWrapper {
+    font-family: "Josefin Sans";
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center;
+    font-weight: bold;
+    padding-inline: 3%;
+    gap: 10px;
+}
+.filterWrapper div {
+    font-family: "Josefin Sans";
+    display: flex;
+    gap: 1%;
+    align-items: center;
+    flex-grow: 1; /* Use flexbox for horizontal alignment */
+}
+.filterWrapper select{
+    font-family: "Josefin Sans";
+    border-width: 2px;
+    padding: 10px;
+}
+
+.storeFront {
+    display: grid;
+    box-shadow: 100;
+    padding: 3%;
+    grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+    gap: 10px;
+}
+/* Card stuff*/
+
+.horizontalContainter{
+    display: flex;
+    align-items: center;
+    margin:0;
+    font-family: "Josefin Sans";
+    margin-top:3px
+}
+.name {
+    font-family: "Josefin Sans";
+    font-size:20px;
+    margin:0;
+}
+.price{ 
+    font-family: "Josefin Sans";
+    font-weight: bold;
+    margin:0;
+    font-size: 20px;
+    margin-left: 2px;
+}

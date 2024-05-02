@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav>
+        <ul>
+            <li><a href="home.html"><i class="material-icons">home</i></a></li>    
+            <li><a href="trackOrder.html">Track Order</a></li>
+            <li><a href="add-question.html">Help</a></li>
+            <li><a href="signup.html"><i class="material-icons">person</i></a></li>    
+            <li><a href="">
+                <i class="material-icons">shopping_basket</i>
+                <span class="badge" id="cart-badge">0</span>
+              </a></li>
+        </ul>
+    </nav>
+    <div class="horizontalContainer">
+        <div>
+            <h1>Send Her Flowers</h1>
+            <p>She will love it</p>
+        </div>
+        <img src="https://t3.ftcdn.net/jpg/01/02/15/90/360_F_102159048_R8i7oxXGaFdaUrHWEITexXNEN3ysDHKU.jpg" alt="Flower Image">
+    </div>
+    <div class="filterWrapper">
+        <div>
+            <p>Filter By</p>
+            <select name="Filter Type" id="type" onchange="filterBy()">
+                <option value="ANY" selected>Flower Type</option>
+                <option value="MIXED">Mixed</option>
+                <option value="ROSES">Roses</option>
+                <option value="LILIES">Lilies</option>
+                <option value="TULIPS">Tulips</option>
+                <option value="DAISIES">Daisies</option>
+            </select>
+            <select name="Filter Occasion" id="occasion" onchange="filterBy()">
+                <option value="ANY" selected>Occasion</option>
+                <option value="MOTHERSDAY">Mother's Day</option>
+                <option value="BIRTHDAY">Birthday</option>
+                <option value="THANKYOU">Thank You</option>
+            </select>
+            <select name="Filter Color" id="color" onchange="filterBy()">
+                <option value="ANY" selected>Color</option>
+                <option value="MIXED">MIXED</option>
+                <option value="RED">Red</option>
+                <option value="YELLOW">Yellow</option>
+                <option value="GREEN">Green</option>
+                <option value="ORANGE">Orange</option>
+            </select>
+        </div>
+        <p>Sort</p>
+        <select name="Sort" id="sort" onchange="sortFlowers()">
+            <option value="LtoH">Price: Low to High</option>
+            <option value="HtoL">Price: High to Low</option>
+        </select>
+    </div>
+    <div class="storeFront" id="store">
+    <script src="configuration.js"></script>
+    <script>
+        let host = getHost();
+        let flowers = [];
+        filterBy();
+        displayFlowers();
+        async function getAll(){
+            //Authorization Stills needs to be done.. later
+            let response = await fetch(host + "/flowers");
+            let result = await response.json();
+            return result;
+        }
+
+        async function displayFlowers() {
+            const store = document.getElementById("store");
+            store.innerHTML = "";
+            flowers.forEach(flower => {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `
+                <div>
+                    <a href="addBasket.html?id=${flower.id}">
+                        <img src="${host}/flowers/${flower.id}/image" style="width: 100%"/>
+                    </a>
+                    <div style="margin:0">
+                        <p class="name">${flower.name}</p> 
+                        <div class="horizontalContainter">
+                            <p style="margin:0">from</p>
+                            <p class="price">$${flower.price}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            store.appendChild(div);
+            });
+        }
+
+        async function filterBy(){
+            let occasionValue= document.getElementById("occasion").value;
+            let colorValue = document.getElementById("color").value;
+            let typeValue = document.getElementById("type").value;
+
+            let response = await fetch(host + "/flowers/filter?occasion="+occasionValue+"&color="+colorValue+"&type="+typeValue);
+            let result = await response.json();
+            flowers = result;
+            displayFlowers();
+        }
+
+        function sortFlowers(){
+            let sortDrop = document.getElementById("sort");
+            if(sortDrop.value === "LtoH"){
+                flowers.sort((a, b) => a.price - b.price);
+            } else{
+                flowers.sort((a, b) => b.price - a.price);
+            }
+            displayFlowers();
+        }
+    </script>
+  </body>
+</html>

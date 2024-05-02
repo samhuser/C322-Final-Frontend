@@ -1,0 +1,90 @@
+
+.verticalContainer { 
+    display: flex;
+    flex-direction: column;
+    padding-left: 30%;
+    padding-right: 30%;
+    font-family: "Josefin Sans";
+}
+.innerHorizontalContainer {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 2%;
+    text-align: center;
+    font-family: "Josefin Sans";
+}
+.innerHorizontalContainer button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 5%;
+    font-family: "Josefin Sans";
+}
+.innerHorizontalContainer input:checked + label{
+    background: white;
+    border: 2px solid black;
+    color: black;
+}
+
+.signup{
+    text-transform: uppercase;
+    background: white;
+    border: 2px solid gray;
+    border-right: none;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 3%;
+    font-family: "Josefin Sans";
+}
+.login{
+    text-transform: uppercase;
+    background: white;
+    border: 2px solid gray;
+    border-left: none;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 3%;
+    font-family: "Josefin Sans";
+}
+.radioButton{
+    display: none;
+}
+.advertisement{
+    text-align:center;
+    font-size: 30px;
+    font-family: "Josefin Sans";
+    color: black;
+    border: none;
+}
+.authButton{
+    background: darkgreen;
+    color: white;
+    font-weight: bold;
+}
+input{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    flex-grow: 1;
+    padding: 3%;
+    font-family: "Josefin Sans";
+}
+.showPassword{
+    display: flex;
+    align-items: center;
+    margin-top: 3%;
+    justify-content: flex-end;
+}
+.showPassword p{
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="trackOrder.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  </head>
+
+  <body style="font-family:Josefin Sans">
+    <nav>
+        <ul>
+            <li><a href="home.html"><i class="material-icons">home</i></a></li>    
+            <li><a href="trackOrder.html">Track Order</a>
+            <li ><a href="add-question.html">Help</a></li>
+            <li><a href="signup.html"><i class="material-icons">person</i></a></li>    
+            <li><a href="">
+              <i class="material-icons">shopping_basket</i>
+              <span class="badge" id="cart-badge">0</span>
+            </a></li>
+        </ul>
+    </nav>
+    <div>
+        <h1 class="borderBottom">My orders</h1>
+        <div id="orders">
+
+        </div>
+    </div>
+    <script src="configuration.js"></script>
+    <script>
+        let host = getHost();
+        let orders = [];
+
+        redirectToLogin();
+
+        getAllOrders();
+
+        function redirectToLogin(){
+            if(isLoggedIn() == false){
+                location.href = "signup.html";
+            }
+        }
+        async function getAll(){
+            //Authorization Stills needs to be done.. later
+            let response = await fetch(host + "/orders/"+getStoredId());
+            let result = await response.json();
+            return result;
+        }
+        async function getAllOrders(){
+            if(orders.length == 0){
+                orders = await getAll();
+            }
+            let ordersList = document.getElementById("orders");
+            ordersList.innerHTML = "";
+            for(let order of orders){
+
+                let address = await getAddress(order.addressId);
+                let orderDetails = await getOrderDetails(order.orderDetailsId);
+                let reciept = await getRecipient(order.recipientId);
+                let flower = await getFlower(order.flowerId);
+
+                let div = document.createElement("div");
+                div.className = "card";
+                let innerHtml = `
+                        <div class="orderStyle" style="border: 2px solid lightgrey;">
+                            <img style="width: 20%; "src="${host}/flowers/${flower.id}/image"/>
+                            <div style="flex-grow: 1; margin-left: 2%;">
+                                <h1>${flower.name} </h1>
+                                <h2>$${orderDetails.total}</h2>
+                                <h3>${reciept.firstName} ${reciept.lastName}</h3>
+                                <h3>${orderDetails.deliveryDate}</h3>
+                            </div>
+                        </div>
+                    `;
+          div.innerHTML = innerHtml;
+          ordersList.appendChild(div);
+            }
+        }
+        async function getOrder(id){
+          let order = await getRequest("/orders/"+id);
+          return order;
+        }
+        async function getOrderDetails(id){
+          let orderDetails = await getRequest("/orderDetails/"+id);
+          return orderDetails;
+        }
+        async function getAddress(id){
+          let address = await getRequest("/address/"+id);
+          return address;
+        }
+        async function getFlower(id){
+          let flower = await getRequest("/flowers/"+id);
+          return flower;
+        }
+        async function getRecipient(id){
+          let recipient = await getRequest("/recipient/"+id);
+          return recipient;
+        }
+        async function getRequest(endpoint){
+          let request = {
+            method: "GET",
+             headers: {
+                "Content-Type": "application/json",
+              },
+          };
+          let response = await fetch(getHost() + endpoint, request);
+          if (response.status == 200) {
+            return response.json();
+          } else {
+            console.log(`response status:${response.status}`);
+            alert("Something went wrong!");
+          }
+        }
+    </script>
+  </body>
+</html>

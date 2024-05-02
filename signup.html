@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav>
+        <ul>
+            <li><a href="home.html"><i class="material-icons">home</i></a></li>    
+            <li><a href="trackOrder.html">Track Order</a>
+            <li ><a href="add-question.html">Help</a></li>
+            <li><a href="signup.html"><i class="material-icons">person</i></a></li>    
+            <li><a href="">
+              <i class="material-icons">shopping_basket</i>
+              <span class="badge" id="cart-badge">0</span>
+            </a></li>
+        </ul>
+    </nav>
+    <div>
+      <div class="verticalContainer">
+        <div >
+          <div class="advertisement">
+            <p id="title">Sign Up To Save</p>
+          </div>
+          <div class="innerHorizontalContainer">
+            <input id="signUp" type="radio" name="tab" value = "signup"class="radioButton"  checked><label for="signUp" class="signup">Sign Up</label>
+            <input id="loginIn" type="radio" name="tab"  value = "login"class="radioButton"><label for="loginIn" class="login">Log In</label>
+          </div>
+          <p>Email</p>
+          <div class="innerHorizontalContainer">
+            <input type="email" id="email" placeholder="name@example.com" required>
+          </div>
+          <p>Password</p>
+          <div class="innerHorizontalContainer">
+            <input type="password" id="password" placeholder="Password" required>
+          </div>
+          <div class="showPassword">
+            <p id="showPassword" onclick="displayPassword()">Show Password</p>
+          </div>
+          <div class="innerHorizontalContainer">
+            <button id="authButton" onclick="signup()" class="authButton"></button>
+          </div>
+        </div>
+        <div class="innerHorizontalContainer">
+          <button onclick="removeTheToken()" style="margin-top: 5%" class="authButton">Log out</button>
+        </div>
+      </div>
+  </div>
+  <script src="configuration.js"></script>
+  <script>
+    
+    let selectedValue;
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+    getRadio();
+
+    function getRadio(){
+      let authButton = document.getElementById("authButton");
+      authButton.innerHTML = "CREATE AN ACCOUNT";
+      let title = document.getElementById("title");
+      title.innerHTML = "Sign Up To Save";
+      radioButtons.forEach(radioButton => {
+        radioButton.addEventListener('change', function() {
+            selectedValue = document.querySelector('input[name="tab"]:checked').value;
+            if(selectedValue == "signup"){
+              authButton.innerHTML = "CREATE AN ACCOUNT";
+              authButton.onclick = signup;
+              title.innerHTML = "Sign Up To Save";
+            }else{
+              authButton.innerHTML = "LOG IN";
+              authButton.onclick = login;
+              title.innerHTML = "Log In";
+            }
+        });
+      });      
+    }
+    function displayPassword(){
+      let authButton = document.getElementById("password");
+      if(authButton.type === "password"){
+        authButton.type = "text";
+      }else{
+        authButton.type = "password";
+      }
+    }
+  </script>
+  </body>
+</html>
